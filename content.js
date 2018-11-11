@@ -85,10 +85,10 @@ function cleanFilmTitle(title) {
 }
 
 function actionHandler(e) {
-    let id = e.target.getAttribute(DATA_ID);
-    let type = e.target.getAttribute(DATA_TYPE);
-    let title = e.target.getAttribute(DATA_TITLE);
-    let action = e.target.getAttribute(DATA_ACTION);
+    let id = e.currentTarget.getAttribute(DATA_ID);
+    let type = e.currentTarget.getAttribute(DATA_TYPE);
+    let title = e.currentTarget.getAttribute(DATA_TITLE);
+    let action = e.currentTarget.getAttribute(DATA_ACTION);
     getSettingsThen((settings) => {
         if (action === REMOVE_FROM_BLACKLIST) {
             settings.blacklist = settings.blacklist.filter((item) => item.id !== id);

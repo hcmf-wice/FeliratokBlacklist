@@ -22,8 +22,8 @@ const HIDE = 'hide';
 
 //sorting of blacklisted items
 const DATA_SORTING = 'data-sorting';
-const BY_TITLE = 'byTitle';
-const BY_DEFAULT = 'byDefault';
+const DEFAULT = 'default';
+const TITLE = 'title';
 
 let showImgSrc = chrome.extension.getURL('images/show.png');
 let hideImgSrc = chrome.extension.getURL('images/hide.png');
@@ -33,7 +33,7 @@ let switchLeftImgSrc = chrome.extension.getURL('images/switchLeft.png');
 let switchRightImgSrc = chrome.extension.getURL('images/switchRight.png');
 
 function getSettingsThen(func) {
-    chrome.storage.local.get({blacklist: [], displayStyle: FADE, sorting: BY_DEFAULT}, (settings) => func(settings));
+    chrome.storage.local.get({blacklist: [], displayStyle: '', sorting: ''}, (settings) => func(settings));
 }
 
 function saveSettings(settings) {
@@ -56,10 +56,10 @@ function oppositeOf(value) {
             return HIDE;
         case HIDE:
             return FADE;
-        case BY_TITLE:
-            return BY_DEFAULT;
-        case BY_DEFAULT:
-            return BY_TITLE;
+        case TITLE:
+            return DEFAULT;
+        case DEFAULT:
+            return TITLE;
     }
     return null;
 }

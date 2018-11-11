@@ -28,11 +28,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="7.9195959"
-     inkscape:cx="15.185652"
-     inkscape:cy="-9.8581987"
+     inkscape:zoom="15.839192"
+     inkscape:cx="2.3282954"
+     inkscape:cy="0.296966"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer3"
      showgrid="true"
      inkscape:pagecheckerboard="true"
      units="px"
@@ -61,7 +61,8 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-291.70832)">
+     transform="translate(0,-291.70832)"
+     style="display:inline">
     <path
        style="opacity:1;fill:#ff0101;fill-opacity:1;stroke:none;stroke-width:11.75755119;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
        d="m 3.955454,291.92196 -1.3096207,1.30962 -1.3096207,-1.30962 -1.12253197,1.12253 1.30962067,1.30962 -1.30962067,1.30962 1.12253197,1.12254 1.3096207,-1.30962 1.3096207,1.30962 1.122532,-1.12254 -1.3096207,-1.30962 1.3096207,-1.30962 z"
@@ -70,5 +71,19 @@
        inkscape:export-filename="Z:\Documents\WebStormWorkspace\FeliratokBlacklist\images\hide.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Layer 2"
+     style="display:inline">
+    <path
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="Z:\Documents\WebStormWorkspace\FeliratokBlacklist\images\hide.png"
+       inkscape:connector-curvature="0"
+       id="path1393"
+       d="M 5.2916713,1.8520635 3.4395884,1.8520559 3.439595,-2.6958649e-5 1.8520965,-3.4397807e-5 1.8520899,1.8520484 7.0344281e-6,1.8520409 -4.6898244e-6,3.4395465 1.8520782,3.4395541 l -6.6e-6,1.8520828 1.5875056,4e-7 6.6e-6,-1.8520828 1.8520829,7.5e-6 z"
+       style="opacity:1;fill:#008b08;fill-opacity:1;stroke:none;stroke-width:11.75755119;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" />
   </g>
 </svg>
