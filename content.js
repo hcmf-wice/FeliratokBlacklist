@@ -10,15 +10,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 function initPage() {
-    let headRow = document.getElementsByClassName('result')[0].children[0].children[0];
-    let buttonTh = _th();
+    const headRow = document.getElementsByClassName('result')[0].children[0].children[0];
+    const buttonTh = _th();
     buttonTh.style = 'width: 20px;';
     headRow.insertBefore(buttonTh, headRow.firstChild);
 
-    for (let row of getRows()) {
-        let buttonImg = _img();
-        let isTv = row.firstElementChild.firstElementChild.href.includes('sid=');
-        let title = row.children[2].children[1].innerText;
+    for (const row of getRows()) {
+        const buttonImg = _img();
+        const isTv = row.firstElementChild.firstElementChild.href.includes('sid=');
+        const title = row.children[2].children[1].innerText;
 
         buttonImg.setAttribute(DATA_ID, row.firstElementChild.firstElementChild.href.replace('https://www.feliratok.info/index.php?', '').replace('sid=', '').replace('fid=', ''));
         buttonImg.setAttribute(DATA_TYPE, (isTv ? TV : FILM));
@@ -26,7 +26,7 @@ function initPage() {
         buttonImg.addEventListener('click', actionHandler);
         buttonImg.style.cursor = 'pointer';
 
-        let buttonTd = _td();
+        const buttonTd = _td();
         buttonTd.style = 'width: 20px;';
         buttonTd.appendChild(buttonImg);
         row.insertBefore(buttonTd, row.firstChild);
@@ -35,9 +35,9 @@ function initPage() {
 
 function updatePage(callback) {
     getSettingsThen((settings) => {
-        for (let row of getRows()) {
-            let img = row.firstElementChild.firstElementChild;
-            let id = img.getAttribute(DATA_ID);
+        for (const row of getRows()) {
+            const img = row.firstElementChild.firstElementChild;
+            const id = img.getAttribute(DATA_ID);
             if (settings.blacklist.find((o) => o.id === id)) {
                 img.src = showImgSrc;
                 img.setAttribute(DATA_ACTION, REMOVE_FROM_BLACKLIST);
@@ -75,20 +75,20 @@ function mouseOutHandler(e) {
 }
 
 function cleanTvTitle(title) {
-    let match = title.match(/.*? - \d+?x/) || title.match(/.*?[ (]Season \d/);
+    const match = title.match(/.*? - \d+?x/) || title.match(/.*?[ (]Season \d/);
     return match ? match[0].replace(/ - \d+?x/, '').replace(/ *[ (]Season \d/, '') : title;
 }
 
 function cleanFilmTitle(title) {
-    let match = title.match(/.*?\(\d{4}\)/);
+    const match = title.match(/.*?\(\d{4}\)/);
     return match ? match[0] : title;
 }
 
 function actionHandler(e) {
-    let id = e.currentTarget.getAttribute(DATA_ID);
-    let type = e.currentTarget.getAttribute(DATA_TYPE);
-    let title = e.currentTarget.getAttribute(DATA_TITLE);
-    let action = e.currentTarget.getAttribute(DATA_ACTION);
+    const id = e.currentTarget.getAttribute(DATA_ID);
+    const type = e.currentTarget.getAttribute(DATA_TYPE);
+    const title = e.currentTarget.getAttribute(DATA_TITLE);
+    const action = e.currentTarget.getAttribute(DATA_ACTION);
     getSettingsThen((settings) => {
         if (action === REMOVE_FROM_BLACKLIST) {
             settings.blacklist = settings.blacklist.filter((item) => item.id !== id);

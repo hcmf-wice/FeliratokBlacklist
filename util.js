@@ -25,12 +25,12 @@ const DATA_SORTING = 'data-sorting';
 const DEFAULT = 'default';
 const TITLE = 'title';
 
-let showImgSrc = chrome.extension.getURL('images/show.png');
-let hideImgSrc = chrome.extension.getURL('images/hide.png');
-let tvImgSrc = chrome.extension.getURL('images/tv.png');
-let filmImgSrc = chrome.extension.getURL('images/film.png');
-let switchLeftImgSrc = chrome.extension.getURL('images/switchLeft.png');
-let switchRightImgSrc = chrome.extension.getURL('images/switchRight.png');
+const showImgSrc = chrome.extension.getURL('images/show.png');
+const hideImgSrc = chrome.extension.getURL('images/hide.png');
+const tvImgSrc = chrome.extension.getURL('images/tv.png');
+const filmImgSrc = chrome.extension.getURL('images/film.png');
+const switchLeftImgSrc = chrome.extension.getURL('images/switchLeft.png');
+const switchRightImgSrc = chrome.extension.getURL('images/switchRight.png');
 
 function getSettingsThen(func) {
     chrome.storage.local.get({blacklist: [], displayStyle: '', sorting: ''}, (settings) => func(settings));
@@ -65,7 +65,7 @@ function oppositeOf(value) {
 }
 
 function titleComparator(item1, item2) {
-    var title1, title2;
+    let title1, title2;
     [title1, title2] = [item1, item2].map((item) => withoutArticle(item.title));
     return title1 < title2 ? -1 : 1;
 }
@@ -78,7 +78,7 @@ function withGreyedOutArticle(title) {
     return title.replace(/^(The|A|An) /, '<span style="color: darkgray">$1</span> ');
 }
 
-let _th = () => document.createElement('th');
-let _tr = () => document.createElement('tr');
-let _td = () => document.createElement('td');
-let _img = () => document.createElement('img');
+const _th = () => document.createElement('th');
+const _tr = () => document.createElement('tr');
+const _td = () => document.createElement('td');
+const _img = () => document.createElement('img');

@@ -14,8 +14,8 @@ function updatePopup() {
             settings.sorting = DEFAULT;
         }
 
-        let displaySwitchImg = document.getElementById('displaySwitch');
-        let displaySwitchRow = document.getElementById('displaySwitchRow');
+        const displaySwitchImg = document.getElementById('displaySwitch');
+        const displaySwitchRow = document.getElementById('displaySwitchRow');
         displaySwitchRow.setAttribute(DATA_DISPLAY_STYLE, settings.displayStyle);
         if (settings.displayStyle === FADE) {
             displaySwitchImg.src = switchLeftImgSrc;
@@ -23,8 +23,8 @@ function updatePopup() {
             displaySwitchImg.src = switchRightImgSrc;
         }
 
-        let sortingSwitchImg = document.getElementById('sortingSwitch');
-        let sortingSwitchRow = document.getElementById('sortingSwitchRow');
+        const sortingSwitchImg = document.getElementById('sortingSwitch');
+        const sortingSwitchRow = document.getElementById('sortingSwitchRow');
         sortingSwitchRow.setAttribute(DATA_SORTING, settings.sorting);
         if (settings.sorting === DEFAULT) {
             sortingSwitchImg.src = switchLeftImgSrc;
@@ -41,16 +41,16 @@ function updatePopup() {
         }
 
         if (Array.isArray(settings.blacklist) && settings.blacklist.length > 0) {
-            var prevTitle = null;
+            let prevTitle = null;
             settings.blacklist.forEach((item, index) => {
-                let titleWithoutArticle = withoutArticle(item.title);
+                const titleWithoutArticle = withoutArticle(item.title);
 
-                let tr = _tr();
-                let buttonTd = _td();
-                let buttonImg = _img();
-                let typeTd = _td();
-                let typeImg = _img();
-                let titleTd = _td();
+                const tr = _tr();
+                const buttonTd = _td();
+                const buttonImg = _img();
+                const typeTd = _td();
+                const typeImg = _img();
+                const titleTd = _td();
                 titleTd.style = 'border-top: 1px solid white;';
 
                 buttonImg.src = showImgSrc;
@@ -73,8 +73,8 @@ function updatePopup() {
                 prevTitle = titleWithoutArticle;
             });
         } else {
-            let tr = _tr();
-            let td = _td();
+            const tr = _tr();
+            const td = _td();
             td.style = 'color: gray; text-align: center; font-size: 80%;';
             td.innerHTML = 'Your blacklist is empty.<br/>Visit <a href="https://www.feliratok.info" target="_blank">feliratok.info</a> to add some TV shows or movies to it!';
             tr.appendChild(td);
@@ -93,7 +93,7 @@ function removeFromBlacklist(id) {
 }
 
 function displayStyleSelectionHandler(e) {
-    let currentDisplayStyle = e.currentTarget.getAttribute(DATA_DISPLAY_STYLE);
+    const currentDisplayStyle = e.currentTarget.getAttribute(DATA_DISPLAY_STYLE);
     getSettingsThen((settings) => {
         settings.displayStyle = oppositeOf(currentDisplayStyle);
         saveSettingsThen(settings, () =>
@@ -103,7 +103,7 @@ function displayStyleSelectionHandler(e) {
 }
 
 function sortingSelectionHandler(e) {
-    let currentSorting = e.currentTarget.getAttribute(DATA_SORTING);
+    const currentSorting = e.currentTarget.getAttribute(DATA_SORTING);
     getSettingsThen((settings) => {
         settings.sorting = oppositeOf(currentSorting);
         saveSettingsThen(settings, () =>
