@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "description": "Hide uninteresting content on the feliratok.info page",
   "permissions": [
-    "tabs",
     "*://*.feliratok.info/*",
     "storage"
   ],
@@ -33,8 +32,8 @@
         "*://*.feliratok.info/*"
       ],
       "js": [
-        "util.js",
-        "content.js"
+        "scripts/util.js",
+        "scripts/content.js"
       ]
     }
   ]
