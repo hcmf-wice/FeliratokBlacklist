@@ -2,26 +2,19 @@ console.log("util.js");
 
 const UPDATE_PAGE = 'command_update_page';
 
-const DATA_ID = 'data-id';
-const DATA_TITLE = 'data-title';
-
 //type of item
-const DATA_TYPE = 'data-type';
 const TV = 'TV';
 const FILM = 'Film';
 
 //button action
-const DATA_ACTION = 'data-action';
 const REMOVE_FROM_BLACKLIST = 'removeFromBlacklist';
 const ADD_TO_BLACKLIST = 'addToBlacklist';
 
 //display style of blacklisted items
-const DATA_DISPLAY_STYLE = 'data-display-style';
 const FADE = 'fade';
 const HIDE = 'hide';
 
 //sorting of blacklisted items
-const DATA_SORTING = 'data-sorting';
 const DEFAULT = 'default';
 const TITLE = 'title';
 
@@ -34,10 +27,6 @@ const switchRightImgSrc = chrome.extension.getURL('images/switchRight.png');
 
 function getSettingsThen(func) {
     chrome.storage.local.get({blacklist: [], displayStyle: '', sorting: ''}, (settings) => func(settings));
-}
-
-function saveSettings(settings) {
-    chrome.storage.local.set(settings);
 }
 
 function saveSettingsThen(settings, func) {

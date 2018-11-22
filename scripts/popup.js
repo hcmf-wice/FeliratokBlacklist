@@ -16,7 +16,7 @@ function updatePopup() {
 
         const displaySwitchImg = document.getElementById('displaySwitch');
         const displaySwitchRow = document.getElementById('displaySwitchRow');
-        displaySwitchRow.setAttribute(DATA_DISPLAY_STYLE, settings.displayStyle);
+        displaySwitchRow.dataset.displayStyle = settings.displayStyle;
         if (settings.displayStyle === FADE) {
             displaySwitchImg.src = switchLeftImgSrc;
         } else if (settings.displayStyle === HIDE) {
@@ -25,7 +25,7 @@ function updatePopup() {
 
         const sortingSwitchImg = document.getElementById('sortingSwitch');
         const sortingSwitchRow = document.getElementById('sortingSwitchRow');
-        sortingSwitchRow.setAttribute(DATA_SORTING, settings.sorting);
+        sortingSwitchRow.dataset.sorting = settings.sorting;
         if (settings.sorting === DEFAULT) {
             sortingSwitchImg.src = switchLeftImgSrc;
         } else if (settings.sorting === TITLE) {
@@ -93,7 +93,7 @@ function removeFromBlacklist(id) {
 }
 
 function displayStyleSelectionHandler(e) {
-    const currentDisplayStyle = e.currentTarget.getAttribute(DATA_DISPLAY_STYLE);
+    const currentDisplayStyle = e.currentTarget.dataset.displayStyle;
     getSettingsThen((settings) => {
         settings.displayStyle = oppositeOf(currentDisplayStyle);
         saveSettingsThen(settings, () =>
@@ -103,7 +103,7 @@ function displayStyleSelectionHandler(e) {
 }
 
 function sortingSelectionHandler(e) {
-    const currentSorting = e.currentTarget.getAttribute(DATA_SORTING);
+    const currentSorting = e.currentTarget.dataset.sorting;
     getSettingsThen((settings) => {
         settings.sorting = oppositeOf(currentSorting);
         saveSettingsThen(settings, () =>

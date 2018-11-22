@@ -20,9 +20,9 @@ function initPage() {
         const isTv = row.firstElementChild.firstElementChild.href.includes('sid=');
         const title = row.children[2].children[1].innerText;
 
-        buttonImg.setAttribute(DATA_ID, row.firstElementChild.firstElementChild.href.replace('https://www.feliratok.info/index.php?', '').replace('sid=', '').replace('fid=', ''));
-        buttonImg.setAttribute(DATA_TYPE, (isTv ? TV : FILM));
-        buttonImg.setAttribute(DATA_TITLE, isTv ? cleanTvTitle(title) : cleanFilmTitle(title));
+        buttonImg.dataset.id = row.firstElementChild.firstElementChild.href.replace('https://www.feliratok.info/index.php?', '').replace('sid=', '').replace('fid=', '');
+        buttonImg.dataset.type = isTv ? TV : FILM;
+        buttonImg.dataset.title = isTv ? cleanTvTitle(title) : cleanFilmTitle(title);
         buttonImg.addEventListener('click', actionHandler);
         buttonImg.style.cursor = 'pointer';
 
@@ -37,10 +37,10 @@ function updatePage(callback) {
     getSettingsThen((settings) => {
         for (const row of getRows()) {
             const img = row.firstElementChild.firstElementChild;
-            const id = img.getAttribute(DATA_ID);
+            const id = img.dataset.id;
             if (settings.blacklist.find((o) => o.id === id)) {
                 img.src = showImgSrc;
-                img.setAttribute(DATA_ACTION, REMOVE_FROM_BLACKLIST);
+                img.dataset.action = REMOVE_FROM_BLACKLIST;
                 row.addEventListener('mouseover', mouseOverHandler);
                 row.addEventListener('mouseout', mouseOutHandler);
                 row.style.opacity = '0.2';
@@ -48,7 +48,7 @@ function updatePage(callback) {
                 row.nextElementSibling.hidden = settings.displayStyle === HIDE;
             } else {
                 img.src = hideImgSrc;
-                img.setAttribute(DATA_ACTION, ADD_TO_BLACKLIST);
+                img.dataset.action = ADD_TO_BLACKLIST;
                 row.removeEventListener('mouseover', mouseOverHandler);
                 row.removeEventListener('mouseout', mouseOutHandler);
                 row.style.opacity = '1.0';
@@ -85,10 +85,10 @@ function cleanFilmTitle(title) {
 }
 
 function actionHandler(e) {
-    const id = e.currentTarget.getAttribute(DATA_ID);
-    const type = e.currentTarget.getAttribute(DATA_TYPE);
-    const title = e.currentTarget.getAttribute(DATA_TITLE);
-    const action = e.currentTarget.getAttribute(DATA_ACTION);
+    const id = e.currentTarget.dataset.id;
+    const type = e.currentTarget.dataset.type;
+    const title = e.currentTarget.dataset.title;
+    const action = e.currentTarget.dataset.action;
     getSettingsThen((settings) => {
         if (action === REMOVE_FROM_BLACKLIST) {
             settings.blacklist = settings.blacklist.filter((item) => item.id !== id);
