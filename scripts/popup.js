@@ -1,4 +1,9 @@
-console.log("popup.js");
+'use strict';
+
+console.log('popup.js');
+
+initPopup();
+updatePopup();
 
 function initPopup() {
     document.getElementById('displaySwitchRow').addEventListener('click', displayStyleSelectionHandler);
@@ -7,36 +12,32 @@ function initPopup() {
 
 function updatePopup() {
     getSettingsThen((settings) => {
-        if (!settings.displayStyle) {
-            settings.displayStyle = FADE;
-        }
-        if (!settings.sorting) {
-            settings.sorting = DEFAULT;
-        }
+        settings.displayStyle = settings.displayStyle || DISPLAY_STYLE.FADE;
+        settings.sorting = settings.sorting || SORTING.DEFAULT;
 
         const displaySwitchImg = document.getElementById('displaySwitch');
         const displaySwitchRow = document.getElementById('displaySwitchRow');
         displaySwitchRow.dataset.displayStyle = settings.displayStyle;
-        if (settings.displayStyle === FADE) {
-            displaySwitchImg.src = switchLeftImgSrc;
-        } else if (settings.displayStyle === HIDE) {
-            displaySwitchImg.src = switchRightImgSrc;
+        if (settings.displayStyle === DISPLAY_STYLE.FADE) {
+            displaySwitchImg.src = SWITCH_LEFT_IMG_SRC;
+        } else if (settings.displayStyle === DISPLAY_STYLE.HIDE) {
+            displaySwitchImg.src = SWITCH_RIGHT_IMG_SRC;
         }
 
         const sortingSwitchImg = document.getElementById('sortingSwitch');
         const sortingSwitchRow = document.getElementById('sortingSwitchRow');
         sortingSwitchRow.dataset.sorting = settings.sorting;
-        if (settings.sorting === DEFAULT) {
-            sortingSwitchImg.src = switchLeftImgSrc;
-        } else if (settings.sorting === TITLE) {
-            sortingSwitchImg.src = switchRightImgSrc;
+        if (settings.sorting === SORTING.DEFAULT) {
+            sortingSwitchImg.src = SWITCH_LEFT_IMG_SRC;
+        } else if (settings.sorting === SORTING.TITLE) {
+            sortingSwitchImg.src = SWITCH_RIGHT_IMG_SRC;
         }
 
         document.getElementById('blacklist').innerHTML = '';
 
-        if (settings.sorting === TITLE) {
+        if (settings.sorting === SORTING.TITLE) {
             settings.blacklist.sort(titleComparator);
-        } else if (settings.sorting === DEFAULT) {
+        } else if (settings.sorting === SORTING.DEFAULT) {
             settings.blacklist = settings.blacklist.reverse();
         }
 
@@ -45,19 +46,21 @@ function updatePopup() {
             settings.blacklist.forEach((item, index) => {
                 const titleWithoutArticle = withoutArticle(item.title);
 
-                const tr = _tr();
-                const buttonTd = _td();
-                const buttonImg = _img();
-                const typeTd = _td();
-                const typeImg = _img();
-                const titleTd = _td();
+                const tr = newTR();
+                const buttonTd = newTD();
+                const buttonImg = newIMG();
+                const typeTd = newTD();
+                const typeImg = newIMG();
+                const titleTd = newTD();
                 titleTd.style = 'border-top: 1px solid white;';
 
-                buttonImg.src = showImgSrc;
-                typeImg.src = item.type === 'TV' ? tvImgSrc : item.type === 'Film' ? filmImgSrc : '';
-                titleTd.innerHTML = settings.sorting === TITLE ? withGreyedOutArticle(item.title) : item.title;
+                buttonImg.src = SHOW_IMG_SRC;
+                typeImg.src = item.type === TYPE.TV ? TV_IMG_SRC
+                            : item.type === TYPE.FILM ? FILM_IMG_SRC
+                            : '';
+                titleTd.innerHTML = settings.sorting === SORTING.TITLE ? withGreyedOutArticle(item.title) : item.title;
 
-                if (settings.sorting === DEFAULT && index > 0 || settings.sorting === TITLE && prevTitle && prevTitle[0] < titleWithoutArticle[0]) {
+                if (settings.sorting === SORTING.DEFAULT && index > 0 || settings.sorting === SORTING.TITLE && prevTitle && prevTitle[0] < titleWithoutArticle[0]) {
                     titleTd.style = 'border-top: 1px solid lightgray;';
                 }
 
@@ -73,8 +76,8 @@ function updatePopup() {
                 prevTitle = titleWithoutArticle;
             });
         } else {
-            const tr = _tr();
-            const td = _td();
+            const tr = newTR();
+            const td = newTD();
             td.style = 'color: gray; text-align: center; font-size: 80%;';
             td.innerHTML = 'Your blacklist is empty.<br/>Visit <a href="https://www.feliratok.info" target="_blank">feliratok.info</a> to add some TV shows or movies to it!';
             tr.appendChild(td);
@@ -87,7 +90,7 @@ function removeFromBlacklist(id) {
     getSettingsThen((settings) => {
         settings.blacklist = settings.blacklist.filter((item) => item.id !== id);
         saveSettingsThen(settings, () =>
-            sendMessageToTab({command: UPDATE_PAGE}, () =>
+            sendMessageToTab({command: COMMAND.UPDATE_PAGE}, () =>
                 updatePopup()));
     });
 }
@@ -95,9 +98,9 @@ function removeFromBlacklist(id) {
 function displayStyleSelectionHandler(e) {
     const currentDisplayStyle = e.currentTarget.dataset.displayStyle;
     getSettingsThen((settings) => {
-        settings.displayStyle = oppositeOf(currentDisplayStyle);
+        settings.displayStyle = DISPLAY_STYLE.OPPOSITE[currentDisplayStyle];
         saveSettingsThen(settings, () =>
-            sendMessageToTab({command: UPDATE_PAGE}, () =>
+            sendMessageToTab({command: COMMAND.UPDATE_PAGE}, () =>
                 updatePopup()));
     });
 }
@@ -105,11 +108,8 @@ function displayStyleSelectionHandler(e) {
 function sortingSelectionHandler(e) {
     const currentSorting = e.currentTarget.dataset.sorting;
     getSettingsThen((settings) => {
-        settings.sorting = oppositeOf(currentSorting);
+        settings.sorting = SORTING.OPPOSITE[currentSorting];
         saveSettingsThen(settings, () =>
             updatePopup());
     });
 }
-
-initPopup();
-updatePopup();

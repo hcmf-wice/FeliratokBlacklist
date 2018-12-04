@@ -1,29 +1,34 @@
-console.log("util.js");
+'use strict';
 
-const UPDATE_PAGE = 'command_update_page';
+console.log('util.js');
 
-//type of item
-const TV = 'TV';
-const FILM = 'Film';
-
-//button action
-const REMOVE_FROM_BLACKLIST = 'removeFromBlacklist';
-const ADD_TO_BLACKLIST = 'addToBlacklist';
-
-//display style of blacklisted items
-const FADE = 'fade';
-const HIDE = 'hide';
-
-//sorting of blacklisted items
-const DEFAULT = 'default';
-const TITLE = 'title';
-
-const showImgSrc = chrome.extension.getURL('images/show.png');
-const hideImgSrc = chrome.extension.getURL('images/hide.png');
-const tvImgSrc = chrome.extension.getURL('images/tv.png');
-const filmImgSrc = chrome.extension.getURL('images/film.png');
-const switchLeftImgSrc = chrome.extension.getURL('images/switchLeft.png');
-const switchRightImgSrc = chrome.extension.getURL('images/switchRight.png');
+const COMMAND = Object.freeze({
+    UPDATE_PAGE: 'command_update_page',
+});
+const TYPE = Object.freeze({
+    TV: 'TV',
+    FILM: 'Film',
+});
+const BUTTON_ACTION = Object.freeze({
+    REMOVE_FROM_BLACKLIST: 'removeFromBlacklist',
+    ADD_TO_BLACKLIST: 'addToBlacklist',
+});
+const DISPLAY_STYLE = Object.freeze({
+    FADE: 'fade',
+    HIDE: 'hide',
+    OPPOSITE: {'fade': 'hide', 'hide': 'fade'},
+});
+const SORTING = Object.freeze({
+    DEFAULT: 'default',
+    TITLE: 'title',
+    OPPOSITE: {'default': 'title', 'title': 'default'},
+});
+const SHOW_IMG_SRC = chrome.extension.getURL('images/show.png');
+const HIDE_IMG_SRC = chrome.extension.getURL('images/hide.png');
+const TV_IMG_SRC = chrome.extension.getURL('images/tv.png');
+const FILM_IMG_SRC = chrome.extension.getURL('images/film.png');
+const SWITCH_LEFT_IMG_SRC = chrome.extension.getURL('images/switchLeft.png');
+const SWITCH_RIGHT_IMG_SRC = chrome.extension.getURL('images/switchRight.png');
 
 function getSettingsThen(func) {
     chrome.storage.local.get({blacklist: [], displayStyle: '', sorting: ''}, (settings) => func(settings));
@@ -37,20 +42,6 @@ function sendMessageToTab(message, callback) {
     chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
         chrome.tabs.sendMessage(tabs[0].id, message, callback);
     });
-}
-
-function oppositeOf(value) {
-    switch (value) {
-        case FADE:
-            return HIDE;
-        case HIDE:
-            return FADE;
-        case TITLE:
-            return DEFAULT;
-        case DEFAULT:
-            return TITLE;
-    }
-    return null;
 }
 
 function titleComparator(item1, item2) {
@@ -67,7 +58,18 @@ function withGreyedOutArticle(title) {
     return title.replace(/^(The|A|An) /, '<span style="color: darkgray">$1</span> ');
 }
 
-const _th = () => document.createElement('th');
-const _tr = () => document.createElement('tr');
-const _td = () => document.createElement('td');
-const _img = () => document.createElement('img');
+function newTH() {
+    return document.createElement('th');
+}
+
+function newTR() {
+    return document.createElement('tr');
+}
+
+function newTD() {
+    return document.createElement('td');
+}
+
+function newIMG() {
+    return document.createElement('img');
+}
