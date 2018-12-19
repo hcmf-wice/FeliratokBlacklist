@@ -23,20 +23,26 @@ const titleComparator = (item1, item2) => withoutArticle(item1.title) < withoutA
 const withoutArticle = title => title.replace(/^(The|A|An) /, '');
 const withGreyedOutArticle = title => title.replace(/^(The|A|An) /, '<span style="color: darkgray">$1</span> ');
 
-const _el = (tagName, props={}, ...children) => {
+const _createElement = (tagName, ...args) => {
   const tag = document.createElement(tagName);
+  if (args.length === 0) return tag;
+  const {props, children} = args[0] instanceof Node ? {props:[], children:args} : {props:args[0], children:args.slice(1)};
   Object.keys(props).forEach(propName => {
     if (propName === 'dataset') {
       Object.keys(props.dataset).forEach(dsPropName => {
         tag.dataset[dsPropName] = props.dataset[dsPropName];
       });
-    } else tag[propName] = props[propName]
+    } else if (propName === 'eventListener') {
+      tag.addEventListener(props[propName][0], props[propName][1]);
+    } else {
+      tag[propName] = props[propName];
+    }
   });
   children.forEach(child => tag.appendChild(child));
   return tag;
 };
-const $th = (props, ...children) => _el('th', props, ...children);
-const $tr = (props, ...children) => _el('tr', props, ...children);
-const $td = (props, ...children) => _el('td', props, ...children);
-const $img = (props) => _el('img', props);
-const $getById = id => document.getElementById(id);
+const th = (...args) => _createElement('th', ...args);
+const tr = (...args) => _createElement('tr', ...args);
+const td = (...args) => _createElement('td', ...args);
+const img = (...args) => _createElement('img', ...args);
+const getById = id => document.getElementById(id);

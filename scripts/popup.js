@@ -3,19 +3,19 @@
 console.log('popup.js');
 
 const initPopup = () => {
-  $getById('displaySwitchRow').addEventListener('click', displayStyleSelectionHandler);
-  $getById('sortingSwitchRow').addEventListener('click', sortingSelectionHandler);
+  getById('displaySwitchRow').addEventListener('click', displayStyleSelectionHandler);
+  getById('sortingSwitchRow').addEventListener('click', sortingSelectionHandler);
   updatePopup();
 };
 
 const updatePopup = async () => {
   const settings = await getSettings();
 
-  $getById('displaySwitch').src = settings.displayStyle === DISPLAY_STYLE.FADE ? SWITCH_LEFT_IMG_SRC : SWITCH_RIGHT_IMG_SRC;
-  $getById('displaySwitchRow').dataset.displayStyle = settings.displayStyle;
-  $getById('sortingSwitch').src = settings.sorting === SORTING.DEFAULT ? SWITCH_LEFT_IMG_SRC : SWITCH_RIGHT_IMG_SRC;
-  $getById('sortingSwitchRow').dataset.sorting = settings.sorting;
-  $getById('blacklist').innerHTML = '';
+  getById('displaySwitch').src = settings.displayStyle === DISPLAY_STYLE.FADE ? SWITCH_LEFT_IMG_SRC : SWITCH_RIGHT_IMG_SRC;
+  getById('displaySwitchRow').dataset.displayStyle = settings.displayStyle;
+  getById('sortingSwitch').src = settings.sorting === SORTING.DEFAULT ? SWITCH_LEFT_IMG_SRC : SWITCH_RIGHT_IMG_SRC;
+  getById('sortingSwitchRow').dataset.sorting = settings.sorting;
+  getById('blacklist').innerHTML = '';
 
   if (settings.sorting === SORTING.TITLE) {
     settings.blacklist.sort(titleComparator);
@@ -26,32 +26,25 @@ const updatePopup = async () => {
     settings.blacklist.forEach((item, index) => {
       const titleWithoutArticle = withoutArticle(item.title);
 
-      const buttonImg = $img({src: SHOW_IMG_SRC, style: 'cursor: pointer;'});
-      buttonImg.addEventListener('click', () => removeFromBlacklist(item.id));
-      $getById('blacklist').appendChild(
-          $tr({},
-              $td({}, buttonImg),
-              $td({}, $img({src: item.type === TYPE.TV ? TV_IMG_SRC : FILM_IMG_SRC})),
-              $td({
-                style: needsSeparator(index, settings.sorting, prevTitle, titleWithoutArticle)
-                    ? 'border-top: 1px solid lightgray;'
-                    : 'border-top: 1px solid white;',
-                innerHTML: settings.sorting === SORTING.TITLE ? withGreyedOutArticle(item.title) : item.title,
-              })));
+      getById('blacklist').appendChild(tr(
+          td(img({
+            src: SHOW_IMG_SRC,
+            style: 'cursor: pointer;',
+            eventListener: ['click', () => removeFromBlacklist(item.id)]})),
+          td(img({src: item.type === TYPE.TV ? TV_IMG_SRC : FILM_IMG_SRC})),
+          td({
+            style: sorting === SORTING.DEFAULT && index > 0 || sorting === SORTING.TITLE && prevTitle && prevTitle[0] < titleWithoutArticle[0]
+                ? 'border-top: 1px solid lightgray;'
+                : 'border-top: 1px solid white;',
+            innerHTML: settings.sorting === SORTING.TITLE ? withGreyedOutArticle(item.title) : item.title,
+          })));
 
       prevTitle = titleWithoutArticle;
     });
   } else {
-    $getById('blacklist').appendChild(
-        $tr({},
-            $td({
-              style: 'color: gray; text-align: center; font-size: 80%;',
-              innerHTML: 'Your blacklist is empty.'})));
+    getById('blacklist').appendChild(tr(td({style: 'color: gray; text-align: center; font-size: 80%;', innerHTML: 'Your blacklist is empty.'})));
   }
 };
-
-const needsSeparator = (index, sorting, prevTitle, titleWithoutArticle) =>
-    sorting === SORTING.DEFAULT && index > 0 || sorting === SORTING.TITLE && prevTitle && prevTitle[0] < titleWithoutArticle[0];
 
 const removeFromBlacklist = async id => {
   const settings = await getSettings();
