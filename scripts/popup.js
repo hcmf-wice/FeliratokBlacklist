@@ -27,13 +27,10 @@ const updatePopup = async () => {
       const titleWithoutArticle = withoutArticle(item.title);
 
       getById('blacklist').appendChild(tr(
-          td(img({
-            src: SHOW_IMG_SRC,
-            style: 'cursor: pointer;',
-            eventListener: ['click', () => removeFromBlacklist(item.id)]})),
+          td(img({src: SHOW_IMG_SRC, style: 'cursor: pointer;', eventListener: ['click', () => removeFromBlacklist(item.id)]})),
           td(img({src: item.type === TYPE.TV ? TV_IMG_SRC : FILM_IMG_SRC})),
           td({
-            style: sorting === SORTING.DEFAULT && index > 0 || sorting === SORTING.TITLE && prevTitle && prevTitle[0] < titleWithoutArticle[0]
+            style: settings.sorting === SORTING.DEFAULT && index > 0 || settings.sorting === SORTING.TITLE && prevTitle && prevTitle[0] < titleWithoutArticle[0]
                 ? 'border-top: 1px solid lightgray;'
                 : 'border-top: 1px solid white;',
             innerHTML: settings.sorting === SORTING.TITLE ? withGreyedOutArticle(item.title) : item.title,

@@ -46,3 +46,5 @@ const tr = (...args) => _createElement('tr', ...args);
 const td = (...args) => _createElement('td', ...args);
 const img = (...args) => _createElement('img', ...args);
 const getById = id => document.getElementById(id);
+const addEventsListener = (element, events, listener) => events.forEach(event => element.addEventListener(event, listener));
+const removeEventsListener = (element, events, listener) => events.forEach(event => element.removeEventListener(event, listener));

@@ -27,13 +27,8 @@ const updateRow = (row, settings) => {
   const isBlacklisted = settings.blacklist.find(o => o.id === img.dataset.id);
   img.src = isBlacklisted ? SHOW_IMG_SRC : HIDE_IMG_SRC;
   img.dataset.action = isBlacklisted ? BUTTON_ACTION.REMOVE_FROM_BLACKLIST : BUTTON_ACTION.ADD_TO_BLACKLIST;
-  if (isBlacklisted) {
-    row.addEventListener('mouseover', mouseHandler);
-    row.addEventListener('mouseout', mouseHandler);
-  } else {
-    row.removeEventListener('mouseover', mouseHandler);
-    row.removeEventListener('mouseout', mouseHandler);
-  }
+  if (isBlacklisted) addEventsListener(row, ['mouseover', 'mouseout'], mouseHandler);
+  else removeEventsListener(row, ['mouseover', 'mouseout'], mouseHandler);
   row.style.opacity = isBlacklisted ? '0.2' : '1.0';
   row.hidden = isBlacklisted ? settings.displayStyle === DISPLAY_STYLE.HIDE : false;
   row.nextElementSibling.hidden = isBlacklisted ? settings.displayStyle === DISPLAY_STYLE.HIDE : false;
