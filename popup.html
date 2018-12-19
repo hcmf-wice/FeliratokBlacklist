@@ -1,5 +1,6 @@
-<html>
+<html lang="en">
 <head>
+    <title>Feliratok Blacklist</title>
     <link rel="stylesheet" type="text/css" href="styles/popup.css">
 </head>
 <body>
@@ -7,12 +8,12 @@
     <table class="fixed" id="switchTable">
         <tr id="displaySwitchRow" style="cursor: pointer;">
             <td style="text-align: right;"><span title="Make the blacklisted TV shows and movies appear faded on the page">fade</span></td>
-            <td><img id="displaySwitch" src=""/></td>
+            <td><img id="displaySwitch" alt="" src=""/></td>
             <td style="text-align: left"><span title="Hide the blacklisted TV shows and movies on the page">hide</span></td>
         </tr>
         <tr id="sortingSwitchRow" style="cursor: pointer;">
             <td style="text-align: right;"><span title="Reverse order of addition to the blacklist (last on top)">sort by default</span></td>
-            <td><img id="sortingSwitch" src=""/></td>
+            <td><img id="sortingSwitch" alt="" src=""/></td>
             <td style="text-align: left"><span title="Alphabetical order ('The', 'A', 'An' ignored)">sort by title</span></td>
         </tr>
     </table>
@@ -20,6 +21,7 @@
 <div id="content">
     <table id="blacklist" class="fixed"></table>
 </div>
+<div id="link"><a href="https://www.feliratok.info" target="_blank">feliratok.info</a></div>
 <script src="scripts/util.js"></script>
 <script src="scripts/popup.js"></script>
 </body>
