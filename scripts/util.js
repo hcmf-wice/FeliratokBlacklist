@@ -15,15 +15,31 @@ const FILM_IMG_SRC = chrome.extension.getURL('images/film.png');
 const SWITCH_LEFT_IMG_SRC = chrome.extension.getURL('images/switchLeft.png');
 const SWITCH_RIGHT_IMG_SRC = chrome.extension.getURL('images/switchRight.png');
 
-const getSettings = () => new Promise(resolve => chrome.storage.local.get({blacklist: [], displayStyle: DISPLAY_STYLE.FADE, sorting: SORTING.DEFAULT}, resolve));
-const saveSettings = settings => new Promise(resolve => chrome.storage.local.set(settings, resolve));
-const sendMessageToTab = message => new Promise(resolve => chrome.tabs.query({active: true, currentWindow: true}, tabs => chrome.tabs.sendMessage(tabs[0].id, message, resolve)));
+function getSettings () {
+  return new Promise(resolve => chrome.storage.local.get({blacklist: [], displayStyle: DISPLAY_STYLE.FADE, sorting: SORTING.DEFAULT}, resolve));
+}
 
-const titleComparator = (item1, item2) => withoutArticle(item1.title) < withoutArticle(item2.title) ? -1 : 1;
-const withoutArticle = title => title.replace(/^(The|A|An) /, '');
-const withGreyedOutArticle = title => title.replace(/^(The|A|An) /, '<span style="color: darkgray">$1</span> ');
+function saveSettings (settings) {
+  return new Promise(resolve => chrome.storage.local.set(settings, resolve));
+}
 
-const _createElement = (tagName, ...args) => {
+function sendMessageToTab (message) {
+  return new Promise(resolve => chrome.tabs.query({active: true, currentWindow: true}, tabs => chrome.tabs.sendMessage(tabs[0].id, message, resolve)));
+}
+
+function titleComparator (item1, item2) {
+  return withoutArticle(item1.title) < withoutArticle(item2.title) ? -1 : 1;
+}
+
+function withoutArticle (title) {
+  return title.replace(/^(The|A|An) /, '');
+}
+
+function withGreyedOutArticle (title) {
+  return title.replace(/^(The|A|An) /, '<span style="color: darkgray">$1</span> ');
+}
+
+function _createElement (tagName, ...args) {
   const tag = document.createElement(tagName);
   if (args.length === 0) return tag;
   const {props, children} = args[0] instanceof Node ? {props:[], children:args} : {props:args[0], children:args.slice(1)};
@@ -40,11 +56,32 @@ const _createElement = (tagName, ...args) => {
   });
   children.forEach(child => tag.appendChild(child));
   return tag;
-};
-const th = (...args) => _createElement('th', ...args);
-const tr = (...args) => _createElement('tr', ...args);
-const td = (...args) => _createElement('td', ...args);
-const img = (...args) => _createElement('img', ...args);
-const getById = id => document.getElementById(id);
-const addEventsListener = (element, events, listener) => events.forEach(event => element.addEventListener(event, listener));
-const removeEventsListener = (element, events, listener) => events.forEach(event => element.removeEventListener(event, listener));
+}
+
+function th (...args) {
+  return _createElement('th', ...args);
+}
+
+function tr (...args) {
+  return _createElement('tr', ...args);
+}
+
+function td (...args) {
+  return _createElement('td', ...args);
+}
+
+function img (...args) {
+  return _createElement('img', ...args);
+}
+
+function getById (id) {
+  return document.getElementById(id);
+}
+
+function addEventsListener (element, events, listener) {
+  events.forEach(event => element.addEventListener(event, listener));
+}
+
+function removeEventsListener (element, events, listener) {
+  events.forEach(event => element.removeEventListener(event, listener));
+}

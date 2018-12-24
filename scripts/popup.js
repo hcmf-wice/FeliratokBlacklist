@@ -2,8 +2,16 @@
 
 console.log('popup.js');
 
-(() => {
-  const updatePopup = async () => {
+(function () {
+  initPopup();
+
+  function initPopup () {
+    getById('displaySwitchRow').addEventListener('click', displayStyleSelectionHandler);
+    getById('sortingSwitchRow').addEventListener('click', sortingSelectionHandler);
+    updatePopup();
+  }
+
+  async function updatePopup () {
     const settings = await getSettings();
 
     getById('displaySwitch').src = settings.displayStyle === DISPLAY_STYLE.FADE ? SWITCH_LEFT_IMG_SRC : SWITCH_RIGHT_IMG_SRC;
@@ -36,36 +44,32 @@ console.log('popup.js');
     } else {
       getById('blacklist').appendChild(tr(td({style: 'color: gray; text-align: center; font-size: 80%;', innerHTML: 'Your blacklist is empty.'})));
     }
-  };
+  }
 
-  const removeFromBlacklist = async id => {
+  async function removeFromBlacklist (id) {
     const settings = await getSettings();
     settings.blacklist = settings.blacklist.filter(item => item.id !== id);
     await saveSettingsAndUpdatePopup(settings);
     sendMessageToTab({command: COMMAND.UPDATE_PAGE});
-  };
+  }
 
-  const displayStyleSelectionHandler = async event => {
+  async function displayStyleSelectionHandler (event) {
     const selectorTR = event.currentTarget;
     const settings = await getSettings();
     settings.displayStyle = DISPLAY_STYLE.OPPOSITE[selectorTR.dataset.displayStyle];
     await saveSettingsAndUpdatePopup(settings);
     sendMessageToTab({command: COMMAND.UPDATE_PAGE});
-  };
+  }
 
-  const sortingSelectionHandler = async event => {
+  async function sortingSelectionHandler (event) {
     const selectorTR = event.currentTarget;
     const settings = await getSettings();
     settings.sorting = SORTING.OPPOSITE[selectorTR.dataset.sorting];
     await saveSettingsAndUpdatePopup(settings);
-  };
+  }
 
-  const saveSettingsAndUpdatePopup = async settings => {
+  async function saveSettingsAndUpdatePopup (settings) {
     await saveSettings(settings);
     updatePopup();
-  };
-
-  getById('displaySwitchRow').addEventListener('click', displayStyleSelectionHandler);
-  getById('sortingSwitchRow').addEventListener('click', sortingSelectionHandler);
-  updatePopup();
+  }
 })();
